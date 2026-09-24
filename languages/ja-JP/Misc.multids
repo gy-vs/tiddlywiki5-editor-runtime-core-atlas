@@ -1,0 +1,107 @@
+title: $:/language/
+
+Alerts: アラート
+AboveStory/ClassicPlugin/Warning: ~TiddlyWiki Classic用に設計されたプラグインを読み込もうとしています。 [[これらのプラグインは TiddlyWiki バージョン 5.xx では動作しません|these plugins do not work with TiddlyWiki version 5.x.x|https://tiddlywiki.com/#TiddlyWikiClassic]]のでご注意ください。検出された~TiddlyWiki Classic プラグイン:
+BinaryWarning/Prompt: この Tiddler にはバイナリデータが含まれています
+ClassicWarning/Hint: この Tiddler はクラシックスタイルの TiddlyWiki フォーマットで書かれています。このフォーマットは TiddlyWiki5 との完全な互換性はありません。詳しくは https://tiddlywiki.com/static/Upgrading.html を参照してください。
+ClassicWarning/Upgrade/Caption: アップグレード
+CloseAll/Button: すべて閉じる
+ColourPicker/Recent: 最近:
+ConfirmAction: 続行しますか?
+ConfirmCancelTiddler: 本当にこの Tiddler "<$text text=<<title>>/>" の編集内容を取り消しますか？
+ConfirmDeleteTiddler: 本当にこの Tiddler "<$text text=<<title>>/>" を削除しますか？
+ConfirmDeleteTiddlers: <<resultCount>>個のTiddlerを削除しますか？
+
+ConfirmEditShadowTiddler: 隠し Tiddler を編集します。将来のアップグレードで互換性がとれなくなるかもしれません。本当にこの Tiddler "<$text text=<<title>>/>" を編集しますか？
+ConfirmOverwriteTiddler: 本当にこの Tiddler "<$text text=<<title>>/>" を上書きしますか?
+Count: count
+DefaultNewTiddlerTitle: 新しい Tiddler
+Diffs/CountMessage: 異なる箇所の数: <<diff-count>>
+DropMessage: ドロップしてください。（止めるには、キャンセルをクリックしてください）
+Encryption/Cancel: キャンセル
+Encryption/ConfirmClearPassword: パスワードを削除すると暗号化も解除されますが、本当にパスワードを削除しますか？
+Encryption/Password: パスワード
+Encryption/PasswordNoMatch: パスワードが一致しません
+Encryption/PromptSetPassword: 新しいパスワードを入力してください
+Encryption/RepeatPassword: パスワードの繰り返し
+Encryption/SetPassword: パスワードを設定
+Encryption/Username: ユーザー名
+Error/Caption: エラー
+Error/DeserializeOperator/MissingOperand: フィルタエラー: 'deserialize'オペレータのオペランドがありません
+Error/DeserializeOperator/UnknownDeserializer: フィルタエラー: 'deserialize'オペレータのオペランドで指定されたデシリアライザが不明です
+Error/Filter: フィルタエラー
+Error/FilterRunPrefix: フィルタエラー: フィルタランのプレフィックスが不明です
+Error/FilterSyntax: フィルタエラー: フィルタ式のシンタックスが間違っています
+Error/FormatFilterOperator: フィルタエラー: 'format'フィルタオペレータのサフィックスが不明です
+Error/IsFilterOperator: フィルタエラー: 'is'フィルタオペレータのパラメータが不明です
+Error/LoadingPluginLibrary: プラグインライブラリの読み込みエラー
+Error/NetworkErrorAlert: `<h2>''ネットワークエラー''</h2>サーバーへの接続が失われたようです。ネットワーク接続に問題がある可能性があります。続行する前に、ネットワーク接続を回復してください。<br><br>''保存されていない変更は、接続が回復すると自動的に同期されます。''`
+Error/PutEditConflict: サーバー上でファイルが変更されました
+Error/PutForbidden: 許可されていません
+Error/PutUnauthorized: 認証が必要です
+Error/RecursiveTransclusion: transcludeウィジェットで、再帰トランスクルージョンのエラーです
+Error/RetrievingSkinny: Skinny Tiddlerリストの取得エラー
+Error/SavingToTWEdit: TWEditへの保存エラー
+Error/WhileSaving: 保存中のエラー
+Error/XMLHttpRequest: XMLHttpRequestエラーコード
+Error/ZoominTextNode: ストーリービューエラー: カスタムコンテナに表示されるTiddlerを操作しようとしたようです。これはおそらく、先頭にテキストまたは空白を含むテンプレートで`$:/tags/StoryTiddlerTemplateFilter`を使用したことが原因です。プラグマ`\whitespace trim`を使用して、Tiddlerのコンテンツ全体が単一のHTML要素で囲まれていることを確認してください。この問題の原因となったテキスト: 
+
+
+InternalJavaScriptError/Hint: 恐縮ですが、ブラウザを更新してTiddlyWikiを再起動することをお勧めします
+InternalJavaScriptError/Title: 内部JavaScriptエラー
+LayoutSwitcher/Description: レイアウト切り替えを開きます
+LazyLoadingWarning: <p>''<$text text={{!!_canonical_uri}}/>''から外部コンテンツを読み込み中です。このメッセージが消えない場合は、Tiddlerのコンテンツタイプが外部コンテンツのタイプと一致していないか、スタンドアロンファイルとしてWikiに読み込まれた外部コンテンツをサポートしていないブラウザを使用している可能性があります。https://tiddlywiki.com/#ExternalText をご覧ください</p>
+
+LoginToTiddlySpace: TiddlySpace へログイン
+Manager/Controls/FilterByTag/None: (なし)
+Manager/Controls/FilterByTag/Prompt: タグでフィルター:
+Manager/Controls/Order/Prompt: 逆順
+Manager/Controls/Search/Placeholder: 検索
+Manager/Controls/Search/Prompt: 検索:
+Manager/Controls/Show/Option/Tags: タグ
+Manager/Controls/Show/Option/Tiddlers: Tiddler
+Manager/Controls/Show/Prompt: 表示:
+Manager/Controls/Sort/Prompt: 表示順:
+Manager/Item/Colour: 色
+Manager/Item/Fields: 項目
+Manager/Item/Icon: アイコン
+Manager/Item/Icon/None: (なし)
+Manager/Item/RawText: Raw テキスト
+Manager/Item/Tags: タグ
+Manager/Item/Tools: ツール
+Manager/Item/WikifiedText: Wikified テキスト
+MissingTiddler/Hint: 未作成の Tiddler "<$text text=<<currentTiddler>>/>" - クリック {{||$:/core/ui/Buttons/edit}} して作成
+NewJournal/Tags: 日誌
+NewJournal/Text: 
+NewJournal/Title: YYYY年MM月DD日(ddd)
+No: いいえ
+OfficialPluginLibrary: 公式 ~TiddlyWiki プラグインライブラリ
+OfficialPluginLibrary/Hint: tiddlywiki.comにある公式~TiddlyWikiプラグインライブラリ。プラグイン、テーマ、言語パックはコアチームによってメンテナンスされています。
+PageTemplate/Description: 標準 ~TiddlyWiki レイアウト
+PageTemplate/Name: 標準レイアウト
+PluginReloadWarning: ~JavaScript プラグインの変更を有効にするため、 {{$:/core/ui/Buttons/save-wiki}} 保存して {{$:/core/ui/Buttons/refresh}} 再読み込みしてください
+RecentChanges/DateFormat: YYYY-0MM-0DD
+Shortcuts/Input/Accept/Hint: 選択項目を許可します
+Shortcuts/Input/AcceptVariant/Hint: 選択項目を許可します (variant)
+Shortcuts/Input/AdvancedSearch/Hint: サイドバーの検索フィールドの中から、~AdvancedSearch パネルを開きます
+Shortcuts/Input/Cancel/Hint: 入力項目をクリアします
+Shortcuts/Input/Down/Hint: 次の項目を選択します
+Shortcuts/Input/Tab-Left/Hint: 前のタグを選択します
+Shortcuts/Input/Tab-Right/Hint: 次のタグを選択します
+Shortcuts/Input/Up/Hint: 前の項目を選択します
+Shortcuts/SidebarLayout/Hint: サイドバーレイアウトを変更します
+Switcher/Subtitle/language: 言語の切り替え
+Switcher/Subtitle/layout: レイアウトの切り替え
+Switcher/Subtitle/palette: パレットの切り替え
+Switcher/Subtitle/theme: テーマの切り替え
+SystemTiddler/Tooltip: これはシステム Tiddler です
+SystemTiddlers/Include/Prompt: システム Tiddler を含める
+TagManager/Colour/Heading: 色
+TagManager/Count/Heading: カウント
+TagManager/Icon/Heading: アイコン
+TagManager/Icons/None: なし
+TagManager/Info/Heading: 情報
+TagManager/Tag/Heading: タグ
+Tiddler/DateFormat: YYYY年MM月DD日(ddd) 0hh:0mm
+UnsavedChangesWarning: 保存していない編集内容があります。
+Yes: はい

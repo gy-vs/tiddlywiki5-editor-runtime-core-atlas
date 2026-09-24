@@ -1,0 +1,26 @@
+created: 20150221211317000
+modified: 20150221211719000
+tags: [[tabs Macro]] [[Macro Examples]]
+title: tabs Macro (Examples)
+type: text/vnd.tiddlywiki
+
+<$macrocall $name=".example" n="1"
+eg="""<<tabs "SampleTabOne SampleTabTwo SampleTabThree SampleTabFour" "SampleTabOne" "$:/state/tab1">>"""/>
+
+<$macrocall $name=".example" n="2"
+eg="""<<tabs "[tag[sampletab]]" "SampleTabTwo" "$:/state/tab2" "tc-vertical">>"""/>
+
+<$macrocall $name=".example" n="3"
+eg="""<<tabs "[tag[sampletab]nsort[order]]" "SampleTabThree" "$:/state/tab3" "tc-vertical">>"""/>
+
+The following example sets the default tab to be the first tiddler selected in the filter and makes the saved state non-persistent (by using "~$:/temp/"):
+
+<$macrocall $name=".example" n="4"
+eg="""<$set name=tl filter="[tag[sampletab]nsort[order]]">
+<$transclude $variable=tabs tabsList=<<tl>> default={{{[enlist<tl>]}}} state="$:/temp/state/tab" class="tc-vertical"/>
+</$set>"""/>
+
+<<.from-version "5.4.0">> Dynamic parameters can be used to specify the default tab:
+
+<$macrocall $name=".example" n="5"
+eg="""<<tabs "[tag[sampletab]nsort[order]]" default={{{[tag[sampletab]nsort[order]]}}} state="$:/temp/state/tab" class="tc-vertical">>"""/>

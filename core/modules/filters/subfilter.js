@@ -1,0 +1,29 @@
+/*\
+title: $:/core/modules/filters/subfilter.js
+type: application/javascript
+module-type: filteroperator
+
+Filter operator returning its operand evaluated as a filter
+
+\*/
+
+"use strict";
+
+/*
+Export our filter function
+*/
+exports.subfilter = function(source,operator,options) {
+	const list = options.wiki.filterTiddlers(operator.operand,options.widget,source);
+	if(operator.prefix === "!") {
+		const results = [],
+			listSet = new Set(list);
+		source((tiddler,title) => {
+			if(!listSet.has(title)) {
+				results.push(title);
+			}
+		});
+		return results;
+	} else {
+		return list;
+	}
+};

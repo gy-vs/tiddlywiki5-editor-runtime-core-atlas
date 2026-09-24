@@ -1,0 +1,18 @@
+title: GettingStarted
+
+\define lingo-base() $:/language/ControlPanel/Basics/
+~TiddlyWikiと~TiddlyWikiコミュニティにようこそ。
+
+TiddlyWikiに重要な情報を書き込む前に、変更内容を確実に保存できることを確認することが不可欠です。詳細は https://tiddlywiki.com/#GettingStarted をご覧ください。
+
+!! この ~TiddlyWiki を設定
+
+<div class="tc-control-panel">
+
+|tc-table-no-border tc-first-col-min-width tc-first-link-nowrap|k
+| <$link to="$:/SiteTitle"><<lingo Title/Prompt>></$link>|<$edit-text tiddler="$:/SiteTitle" default="" tag="input"/> |
+| <$link to="$:/SiteSubtitle"><<lingo Subtitle/Prompt>></$link>|<$edit-text tiddler="$:/SiteSubtitle" default="" tag="input"/> |
+|^ <$link to="$:/DefaultTiddlers"><<lingo DefaultTiddlers/Prompt>></$link><br><<lingo DefaultTiddlers/TopHint>>|<$edit tag="textarea" tiddler="$:/DefaultTiddlers"/><br>//<<lingo DefaultTiddlers/BottomHint>>// |
+</div>
+
+より多くのオプションについては[[コントロールパネル|$:/ControlPanel]]を参照してください。
