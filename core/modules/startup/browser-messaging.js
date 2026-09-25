@@ -16,43 +16,103 @@ exports.after = ["startup"];
 exports.synchronous = true;
 
 /*
-Load a specified url as an iframe and call the callback when it is loaded. If the url is already loaded then the existing iframe instance is used
+Load a specified url as an iframe and call the callback when it is loaded. If the url is already loaded then the existing iframe instance is used. Callbacks made while the iframe is still loading are queued, and are invoked once the iframe is ready or has failed
 */
 function loadIFrame(url,callback) {
 	// Check if iframe already exists
 	var iframeInfo = $tw.browserMessaging.iframeInfoMap[url];
 	if(iframeInfo) {
-		// We've already got the iframe
-		callback(null,iframeInfo);
-	} else {
-		// Create the iframe and save it in the list
-		var iframe = document.createElement("iframe");
-		iframeInfo = {
-			url: url,
-			status: "loading",
-			domNode: iframe
-		};
-		$tw.browserMessaging.iframeInfoMap[url] = iframeInfo;
-		saveIFrameInfoTiddler(iframeInfo);
-		// Add the iframe to the DOM and hide it
-		iframe.style.display = "none";
-		iframe.setAttribute("library","true");
-		document.body.appendChild(iframe);
-		// Set up onload
-		iframe.onload = function() {
-			iframeInfo.status = "loaded";
-			saveIFrameInfoTiddler(iframeInfo);
+		if(iframeInfo.status === "loading") {
+			// The iframe is still loading, so queue the callback to be invoked once it is ready
+			iframeInfo.callbacks.push(callback);
+			return;
+		} else if(iframeInfo.status === "loaded") {
+			// We've already got the iframe
 			callback(null,iframeInfo);
-		};
-		iframe.onerror = function() {
-			callback("Cannot load iframe");
-		};
-		try {
-			iframe.src = url;
-		} catch(ex) {
-			callback(ex);
+			return;
 		}
+		// The previous load failed, so remove the defunct iframe and retry with a new one
+		unloadIFrame(url);
 	}
+	createIFrame(url,callback);
+}
+
+/*
+Create a new library iframe for a given url
+*/
+function createIFrame(url,callback) {
+	// Create the iframe and save it in the list
+	var iframe = document.createElement("iframe");
+	var iframeInfo = {
+		url: url,
+		status: "loading",
+		domNode: iframe,
+		callbacks: [callback]
+	};
+	$tw.browserMessaging.iframeInfoMap[url] = iframeInfo;
+	saveIFrameInfoTiddler(iframeInfo);
+	// Add the iframe to the DOM and hide it
+	iframe.style.display = "none";
+	iframe.setAttribute("library","true");
+	document.body.appendChild(iframe);
+	// Set up onload and onerror
+	iframe.onload = function() {
+		iframeHasLoaded(iframeInfo);
+	};
+	iframe.onerror = function() {
+		iframeHasFailed(iframeInfo,"Cannot load iframe");
+	};
+	try {
+		iframe.src = url;
+	} catch(ex) {
+		iframeHasFailed(iframeInfo,ex);
+	}
+}
+
+/*
+Mark a library iframe as ready and invoke any queued callbacks. Triggered by the iframe onload event, or by a READY message from the library itself (the onload event is not guaranteed to fire if loading is interrupted after the library script has run)
+*/
+function iframeHasLoaded(iframeInfo) {
+	if(iframeInfo.status !== "loaded") {
+		iframeInfo.status = "loaded";
+		saveIFrameInfoTiddler(iframeInfo);
+		flushIFrameCallbacks(iframeInfo,null);
+	}
+}
+
+/*
+Mark a library iframe as failed and invoke any queued callbacks with the error
+*/
+function iframeHasFailed(iframeInfo,err) {
+	if(iframeInfo.status === "loading") {
+		iframeInfo.status = "error";
+		saveIFrameInfoTiddler(iframeInfo);
+		flushIFrameCallbacks(iframeInfo,err);
+	}
+}
+
+/*
+Invoke and clear the callbacks that were queued while a library iframe was loading
+*/
+function flushIFrameCallbacks(iframeInfo,err) {
+	var callbacks = iframeInfo.callbacks;
+	iframeInfo.callbacks = [];
+	$tw.utils.each(callbacks,function(callback) {
+		callback(err,iframeInfo);
+	});
+}
+
+/*
+Find the info of the library iframe with a given content window
+*/
+function findIFrameInfoByContentWindow(contentWindow) {
+	var result = null;
+	$tw.utils.each($tw.browserMessaging.iframeInfoMap,function(iframeInfo) {
+		if(iframeInfo && iframeInfo.domNode.contentWindow === contentWindow) {
+			result = iframeInfo;
+		}
+	});
+	return result;
 }
 
 /*
@@ -81,7 +141,7 @@ function saveIFrameInfoTiddler(iframeInfo) {
 exports.startup = function() {
 	// Initialise the store of iframes we've created
 	$tw.browserMessaging = {
-		iframeInfoMap: {} // Hashmap by URL of {url:,status:"loading/loaded",domNode:}
+		iframeInfoMap: {} // Hashmap by URL of {url:,status:"loading" | "loaded" | "error",domNode:,callbacks:}
 	};
 	// Listen for widget messages to control loading the plugin library
 	$tw.rootWidget.addEventListener("tm-load-plugin-library",function(event) {
@@ -147,6 +207,13 @@ exports.startup = function() {
 		// console.log("browser-messaging: Received message from",event.origin);
 		// console.log("browser-messaging: Message content",event.data);
 		switch(event.data.verb) {
+			case "READY":
+				// A library iframe is announcing that its script has run and is listening for messages. This is used as a fallback for the iframe onload event, which is not guaranteed to fire if loading is interrupted
+				var iframeInfo = findIFrameInfoByContentWindow(event.source);
+				if(iframeInfo) {
+					iframeHasLoaded(iframeInfo);
+				}
+				break;
 			case "GET-RESPONSE":
 				if(event.data.status.charAt(0) === "2") {
 					if(event.data.cookies) {

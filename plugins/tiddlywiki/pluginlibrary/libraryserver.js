@@ -63,6 +63,13 @@ window.addEventListener("message",function listener(event){
 	}
 },false);
 
+// Announce to the host window that the library is ready to receive requests. The host cannot rely on the iframe "load" event alone, because it is not guaranteed to fire if loading is interrupted after this script has run
+if(window.parent !== window) {
+	window.parent.postMessage({
+		verb: "READY"
+	},"*");
+}
+
 // Helper to remove string prefixes
 function removePrefix(string,prefix) {
 	if(string.indexOf(prefix) === 0) {
@@ -74,11 +81,23 @@ function removePrefix(string,prefix) {
 
 // Helper for HTTP GET
 function httpGet(url,callback) {
-	var http = new XMLHttpRequest();
+	var http = new XMLHttpRequest(),
+		done = false;
 	http.open("GET",url,true);
 	http.onreadystatechange = function() {
-		if(http.readyState == 4 && http.status == 200) {
-			callback(null,http.responseText);
+		if(!done && http.readyState == 4) {
+			done = true;
+			if(http.status == 200) {
+				callback(null,http.responseText);
+			} else {
+				callback("Cannot GET " + url + " (status " + http.status + ")");
+			}
+		}
+	};
+	http.onerror = function() {
+		if(!done) {
+			done = true;
+			callback("Cannot GET " + url);
 		}
 	};
 	http.send();
